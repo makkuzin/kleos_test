@@ -33,10 +33,19 @@ if broken_inside.empty? and broken_outside.empty?
   result << "none.\n"
 elsif broken_inside.empty?
   result << "- inside: none\n"
-  result << broken_outside.join("\n")
+  result << "- outside: \n" + broken_outside.join("\n")
 elsif broken_outside.empty?
-  result << broken_inside.join("\n")
+  result << "- inside: \n" + broken_inside.join("\n")
   result << "- outside: none\n"
 end
 
-puts result
+begin
+  filename = "#{ENV['HOME']}/kleos_test.report"
+  File.open(filename, 'w') { |f| f.write(result) }
+  puts "*** Result ***"
+  puts "Result is saved at #{filename}"
+rescue
+  puts "*** WARNING ***"
+  puts "Impossible create a file."
+  puts result
+end
