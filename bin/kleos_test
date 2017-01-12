@@ -1,0 +1,42 @@
+#!/usr/bin/env ruby
+
+require 'pry'
+$LOAD_PATH << File.expand_path(File.dirname(__FILE__) + '/../lib')
+require 'kleos_test'
+
+puts "*** Check for inside links ***\n\n"
+begin
+  collector = KleosTest::LinksCollector.new
+  collector.get_new_links
+end while KleosTest::LinksCollector.unverified_inside_links.size > 0
+
+puts "\n\n*** Check for outside links ***\n\n"
+collector = KleosTest::LinksCollector.new
+collector.verify_outside_links
+
+broken_inside = KleosTest::LinksCollector.invalid_inside_links
+broken_outside = KleosTest::LinksCollector.invalid_outside_links
+
+result = <<EOF
+*** Result: ***
+Total count of inside links:  #{KleosTest::LinksCollector.inside_links.count}
+- valid:   #{KleosTest::LinksCollector.valid_inside_links.count}
+- invalid: #{broken_inside.count}
+Total count of outside links: #{KleosTest::LinksCollector.outside_links.count}
+- valid:   #{KleosTest::LinksCollector.valid_outside_links.count}
+- invalid: #{broken_outside.count}
+---------------
+Broken links:
+EOF
+
+if broken_inside.empty? and broken_outside.empty?
+  result << "none.\n"
+elsif broken_inside.empty?
+  result << "- inside: none\n"
+  result << broken_outside.join("\n")
+elsif broken_outside.empty?
+  result << broken_inside.join("\n")
+  result << "- outside: none\n"
+end
+
+puts result
