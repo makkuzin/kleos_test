@@ -37,6 +37,9 @@ elsif broken_inside.empty?
 elsif broken_outside.empty?
   result << "- inside: \n" + broken_inside.join("\n")
   result << "- outside: none\n"
+else
+  result << "\n- inside: \n" + broken_inside.join("\n")
+  result << "\n- outside: \n" + broken_outside.join("\n")
 end
 
 begin

@@ -55,6 +55,9 @@ class KleosTest::LinksCollector
     puts "ERROR"
     puts "BAD URI"
     ['fake body', 1]
+  rescue
+    puts "UNKNOWN ERROR"
+    ['fake body', 1]
   end
 
   def download_outside_webpage(address, counter)
@@ -69,6 +72,9 @@ class KleosTest::LinksCollector
   rescue URI::InvalidURIError
     puts "ERROR"
     puts "BAD URI"
+    1
+  rescue
+    puts "UNKNOWN ERROR"
     1
   end
 
