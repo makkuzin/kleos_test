@@ -42,7 +42,7 @@ class KleosTest::LinksCollector
     address = @target.include?('http') ? @target : KleosTest.base_address + @target
     @@inside_downloads += 1
     print "Downloading (#{@@inside_downloads}|#{@@unverified_inside_links.size})\
- #{address}..."
+ #{URI::decode(address)}..."
     response = RestClient.get(address)
     puts "OK"
     [response.body, response.code]
@@ -60,7 +60,7 @@ class KleosTest::LinksCollector
 
   def download_outside_webpage(address, counter)
     print "Downloading (#{counter}|#{@@unverified_outside_links.size - counter})\
- #{address}..."
+ #{URI::decode(address)}..."
     response = RestClient.get(address)
     puts "OK"
     response.code

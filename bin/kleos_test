@@ -34,13 +34,13 @@ if broken_inside.empty? and broken_outside.empty?
   result << "- none.\n"
 elsif broken_inside.empty?
   result << "- inside: none\n"
-  result << "- outside: \n" + broken_outside.join("\n")
+  result << "- outside: \n#{URI::decode(broken_outside.join("\n"))}\n"
 elsif broken_outside.empty?
-  result << "- inside: \n" + broken_inside.join("\n")
+  result << "- inside: \n#{URI::decode(broken_inside.join("\n"))}\n"
   result << "- outside: none\n"
 else
-  result << "\n- inside: \n" + broken_inside.join("\n")
-  result << "\n- outside: \n" + broken_outside.join("\n")
+  result << "- inside: \n#{broken_inside.join("\n")}\n"
+  result << "- outside: \n#{broken_outside.join("\n")}\n"
 end
 
 filename = "#{ENV['HOME']}/#{KleosTest.base_address}.report"
