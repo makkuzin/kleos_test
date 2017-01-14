@@ -1,8 +1,9 @@
 #!/usr/bin/env ruby
-
-require 'pry'
 $LOAD_PATH << File.expand_path(File.dirname(__FILE__) + '/../lib')
 require 'kleos_test'
+require 'pry'
+
+KleosTest.base_address = ARGV[0] if ARGV[0]
 
 puts "*** Check for inside links ***\n\n"
 begin
@@ -30,7 +31,7 @@ Broken links:
 EOF
 
 if broken_inside.empty? and broken_outside.empty?
-  result << "none.\n"
+  result << "- none.\n"
 elsif broken_inside.empty?
   result << "- inside: none\n"
   result << "- outside: \n" + broken_outside.join("\n")
@@ -42,13 +43,13 @@ else
   result << "\n- outside: \n" + broken_outside.join("\n")
 end
 
+filename = "#{ENV['HOME']}/#{KleosTest.base_address}.report"
 begin
-  filename = "#{ENV['HOME']}/kleos_test.report"
   File.open(filename, 'w') { |f| f.write(result) }
   puts "*** Result ***"
   puts "Result is saved at #{filename}"
 rescue
   puts "*** WARNING ***"
-  puts "Impossible create a file."
+  puts "Impossible dump the report to #{filename}."
   puts result
 end

@@ -1,6 +1,4 @@
 class KleosTest::LinksCollector
-  BASE_ADDRESS = 'https://www.kleos.ru'
-
   @@unverified_inside_links = ['/']
   @@unverified_outside_links = []
   @@verified_links = []
@@ -41,7 +39,7 @@ class KleosTest::LinksCollector
   end
 
   def download_inside_webpage
-    address = @target.include?('http') ? @target : BASE_ADDRESS + @target
+    address = @target.include?('http') ? @target : KleosTest.base_address + @target
     @@inside_downloads += 1
     print "Downloading (#{@@inside_downloads}|#{@@unverified_inside_links.size})\
  #{address}..."
